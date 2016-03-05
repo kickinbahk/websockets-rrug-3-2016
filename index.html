@@ -1,742 +1,150 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
-
-		<title>WebSockets - RRuG</title>
-
-		<meta name="description" content="A presentation on WebSockets for the RRuG Meetup 03/2016">
-		<meta name="author" content="Josiah Mory">
-
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-        <script src="https://use.typekit.net/nww3sri.js"></script>
-        <script>try{Typekit.load({ async: true });}catch(e){}</script>
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+  <head>
+    <meta charset="utf-8">        
+    <title>WebSockets - RRuG</title>
+    <meta name="description" content="A presentation on WebSockets for the RRuG Meetup 03/2016">
+    <meta name="author" content="Josiah Mory">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <script src="https://use.typekit.net/nww3sri.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/blood.css" id="theme">
         
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
-
-	<body>
-
-		<div class="reveal">
-
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-			  <section>
-                <h1>WebSockets</h1>
-                  <p>
-                    <small><a href="http://kickinbahk.com">Josiah Mory</a> / <a href="http://twitter.com/kickinbahk">@kickinbahk</a></small>
-                  </p>
-			  </section>
-
-			  <section data-markdown>
-                ### An Interactive communication session between the user's browser and a server
-			  </section>
-              
-			  <section data-transition="fade-in none">
-                  <h2>Faye - Rails</h2>
-                  <h2 class="fragment fade-in" data-fragment-index="1">Socket.io - Node</h2>
-                  <h2 class="fragment fade-in" data-fragment-index="2">ActionCable - Rails </h2>
-			  </section>
-			  <section data-transition="none">
-                  <h2 class="fragment highlight-red" data-fragment-index="0">Faye - Rails</h2>
-                  <h2 class="fragment highlight-blue" data-fragment-index="1">Socket.io - Node</h2>
-                  <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
-			  </section>                            
-              <!-- Var vs Let & Const -->
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Var
-                  ## vs.
-                  # Let & Const
-                </section>
-                
-                <section data-markdown data-transition="fade">
-                  ## Var is Scoped to the Function 
-                </section>
-                
-                <section data-markdown data-transition="convex">
-                  ```
-                  function f() {
-                    for (var i = 2; i < 10; i+=1) {
-                      console.log("i = " + i);
-                    }
-                    console.log(i);
-                  }
-                  f(); 
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Let and Const are Scoped to the Block
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Const is a Constant Reference to a Value
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Immutable when Referencing a Primitive
-                  ### (String, Num, Bool) 
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Not Immutable Referencing an Object                    
-                  ### (Arrays and Objects)
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Less Strict Immutability
-                </section>
-
-                <section data-markdown data-transition="concave">
-                  ### Let and Const
-
-                  ```
-                    function myFunc() {
-                      {
-                        let x;
-                        {
-                          // okay, block scoped name
-                          const x = "sneaky";
-                          // error, const
-                          x = "foo";
-                        }
-                        // okay, declared with `let`
-                        x = "bar";
-                        // error, already declared in block
-                        let x = "inner";
-                      }
-                    }
-                  ```  
-                </section>
-              </section>
-
-              <!-- Replacing IIFEs With Blocks --> 
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Replacing IIFEs
-                  ## with
-                  # Blocks
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Immediately Invoked Function Expression
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Allows for scoping
-                  ### (To not pollute the global space)
-                </section>
-
-                <section data-transition="convex">
-                  <h4>Es5 IIFE:</h4>
-                  <pre><code class="javascript">
-                    (function () {
-                        var food = 'Meow Mix';
-                    }());
-
-                    console.log(food); // Reference Error
-                  </code></pre>
-                  <h4>ES6 Blocks:</h4>
-                  <pre><code class="javascript">                    
-                    {
-                      let food = 'Meow Mix';
-                    }
-
-                    console.log(food); // Reference Error
-                  </code></pre>
-                </section>
-              </section>
-
-              <!-- Arrow Functions  -->
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Arrow Functions
-                </section>               
-
-                <section data-markdown data-transition="fade">
-                  ## From Coffeescript (Fat Arrow)
-                </section>
-
-                <section data-transition="fade">
-                  <h3> Shorter Code...</h3>
-
-                  <pre><code class="javascript">
-                    function foo(x,y) {
-                        return x + y;
-                    }
-
-                    // versus
-
-                    var foo = (x,y) => x + y;
-                  </code></pre>
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## More importantly is impact of `this`
-                </section>
-
-                <section data-transition="fade">
-                  <h3><code>this</code> bindings are dynamic so we use the predictability of lexical scope via the self variable.</h3>
-
-                  <pre><code class="javascript" data-trim data-noescape>
-                    var controller = {
-                      makeRequest: function(..){
-                        var self = this;
-                        btn.addEventListener( "click", function(){
-                          // ..
-                          self.makeRequest(..);
-                        }, false );
-                      }
-                    };
-                  </code></pre>
-                </section>                
-
-                <section data-transition="fade">
-                  <h3>Inside arrow functions, the <code>this</code> binding is not dynamic, but is instead lexical</h3>
-
-                  <pre><code class="javascript" data-trim data-noescape>
-                    var controller = {
-                        makeRequest: function(..){
-                            btn.addEventListener( "click", () => {
-                                // ..
-                                this.makeRequest(..);
-                            }, false );
-                        }
-                    };
-                  </code></pre>
-                </section>        
-
-                <section data-transition="fade">
-                  <a href="http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/"><img src="./assets/javascript-is-sexy.png" /></a>
-                  <br>
-                  <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/es6%20&%20beyond"><img src="./assets/es6-and-beyond.jpg"  /></a>
-                </section>
-              </section>
-
-              <!-- Parameters -->
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Parameters
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Default Parameters
-                </section>
-                
-                <section data-markdown data-transition="convex">
-                  ### Es5
-                    
-                  ```
-                    function addTwoNumbers(x, y) {
-                      x = x || 0;
-                      y = y || 0;
-                      return x + y;
-                    }
-                  ```
-                  ### Es6
-                    
-                  ```
-                    function addTwoNumbers(x=0, y=0) {
-                      return x + y;
-                    }
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Rest Parameter
-                  ### (Indefinite Amount of Args)
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Rest Operator (...)
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  ### Es5
-
-                  ```
-                    function logArguments() {
-                      for (var i=0; i < arguments.length; i++) {
-                        console.log(arguments[i]);
-                      }
-                    }
-                  ```
-                  
-                  ### Es6
-
-                  ```
-                    function logArguments(...args) {
-                      for (var i=0; i < args.length; i++) {
-                        console.log(args[i]);
-                      }
-                    }
-                  ```
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  ### for loop
-
-                  ```
-                    function logArguments(...args) {
-                      for (var i=0; i < args.length; i++) {
-                        console.log(args[i]);
-                      }
-                    }
-                  ```
-
-                  ### for...of (Es6)
-
-                  ```
-                    function logArguments(...args) {
-                      for (let arg of args) {
-                        console.log(arg);
-                      }
-                    }
-                  ```
-                </section>
-                                    
-              </section>
-                
-              <!-- Strings  --> 
-              <section>                 
-                <section data-markdown data-transition="fade">
-                  # Strings
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Adds New Methods to the Library
-                </section>
-                  
-                <section data-markdown data-transition="fade">
-                  ## .includes()
-                </section>
-
-                <section data-markdown data-transition="concave">
-                  ### Es5 
-
-                  ```
-                    var string = 'food';
-                    var substring = 'foo';
-
-                    console.log(string.indexOf(substring) > -1);
-                  ```
-
-                  ### Es6
-
-                  ```
-                    const string = 'food';
-                    const substring = 'foo';
-
-                    console.log(string.includes(substring)); // true
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## .repeat()
-                </section>
-
-                <section data-markdown data-transition="concave">
-                  ### Es5
-                  ```
-                    function repeat(string, count) {
-                      var strings = [];
-                      while(strings.length < count) {
-                        strings.push(string);
-                      }
-                      return strings.join('');
-                    }
-                  ```
-
-                  ### Es6
-
-                  ```
-                    // String.repeat(numberOfRepetitions)
-                    'meow'.repeat(3); // 'meowmeowmeow'
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Template Literals               
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Allows special characters w/o Escaping
-                </section>
-
-                <section data-transition="concave">
-
-                  <h3>Es5</h3>
-
-                  <pre><code class="javascript">
-var text = "This string contains \"double quotes\" which are escaped.";
-                  </code></pre>
-
-                  <h3>Es6</h3>
-
-                  <pre><code class="javascript">
-var text = `This string contains "double quotes" which are escaped.`;
-                  </code></pre>
-
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## String Interpolation
-                </section>
-
-                <section data-markdown data-transition="concave">
-                  ### Es5
-
-                  ```
-                    var name = 'Tiger';
-                    var age = 13;
-
-                    console.log('My cat is named ' + name
-                               + ' and is ' + age + ' years old.');
-                  ```
-
-                  ### Es6
-
-                  ```
-                    const name = 'Tiger';
-                    const age = 13;
-
-                    console.log(`My cat is named ${name} and is ${age} years old.`);
-                  ```
-                </section>
-                  
-                <section data-markdown data-transition="fade">
-                  ## New Line Preservation
-                </section>
-
-                <section data-markdown data-transition="concave">
-                  ### Es5
-
-                  ```
-                    var text = (
-                      'cat\n' +
-                      'dog\n' +
-                      'nickelodeon'
-                    );
-                  ```
-
-                  ### Es6
-
-                  ```
-                    let text = ( `cat
-                    dog
-                    nickelodeon`
-                    );
-                    ```
-                </section>                  
-              </section>
-
-              <!-- Promises -->
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Promises
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## A Promise object represents a value that may not be available yet.
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Allow replacing Callbacks with Promises
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Makes for more readable Code
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ### Callbacks
-                  ```
-                    func1(function (value1) {
-                      func2(value1, function (value2) {
-                        func3(value2, function (value3) {
-                          func4(value3, function (value4) {
-                            func5(value4, function (value5) {
-                              // Do something with value 5
-                            });
-                          });
-                        });
-                      });
-                    });
-                  ```
-                </section>
-                <section data-markdown data-transition="fade">
-                  ### Promises
-                  ```
-                    func1(value1)
-                      .then(func2)
-                      .then(func3)
-                      .then(func4)
-                      .then(func5, value5 => {
-                        resolve(5+1);// Do something with value 5
-                        reject();
-                      })
-                      .catch(error);
-                  ```
-                </section>
-              </section>
-              
-              <!-- Generators -->
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Generators
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## New Type of Function
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Standard Function is
-                  ## "Run to Completion"
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## With ES6 generators, we have a different kind of function                 
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ##  These new functions may be paused, and resumed later
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ##  This allows other code to run during these paused periods
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## It can be paused by using the `yield` keyword inside the Generator
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ##  Nothing from the outside of a Generator can stop it
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Once paused, only something outside can restart it                   
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## You would do this using the `return` statement. 
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## This enables 2-way message passing, to and from the Generator
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  #### (Two different naming conventions)
-                  ```
-                    function *foo() {
-                      // ..
-                    }
-                  ```
-                  
-                  #### or
-
-                  ```
-                    function* foo() {
-                      // ..
-                    }
-                  ```
-                </section>
-                
-                <section data-markdown data-transition="fade">
-                  ## It is just a normal function, with different keywords
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ### `yield` is referred to as a:
-                  ## `yield expression`
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## What we send back in is the result of the `yield expression`
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  ```
-                    function *foo() {
-                      yield 1;
-                      yield 2;
-                      yield 3;
-                      yield 4;
-                      yield 5;
-                    }
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## To step through values, we need an iterator
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  ```
-                    var it = foo();
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## We have the .next()
-                </section>
-                
-                <section data-markdown data-transition="convex">
-                  ```
-                    var it = foo();
-
-                    console.log(it.next()); // { value:1, done:false }
-                  ```                  
-                </section>
-
-                <section data-markdown data-transition="convex">
-                  ### If we keep interating
-                  ```
-                    console.log(it.next()); // { value:2, done:false }
-                    console.log(it.next()); // { value:3, done:false }
-                    console.log(it.next()); // { value:4, done:false }
-                    console.log(it.next()); // { value:5, done:false }
-                    console.log(it.next()); // { value:undefined, done:true }
-
-                  ```
-                </section>
-
-                <section data-markdown data-transition="fade">
-                  ## Let's look at a slightly more complex example
-                </section>
-
-                <section data-transition="convex">
-                  <pre><code class="javascript">
- function *foo(x) {
-   var y = 2 * (yield (x + 1));
-   var z = yield (y / 3);
- return (x + y + z);
- }
-
- var it = foo( 5 );
-
- // note: not sending anything into next() here
- console.log( it.next() );       // { value:6, done:false }
- console.log( it.next( 12 ) );   // { value:8, done:false }
- console.log( it.next( 13 ) );   // { value:42, done:true }
-                  </code></pre>
-                </section>
-                
-                <section data-markdown data-transition="fade">
-                  ## The Basics Of ES6 Generators
-                  ### [https://davidwalsh.name/es6-generators](https://davidwalsh.name/es6-generators)
-                </section>                
-              </section>
-              
-              <!-- Adding Es2015 to your Rails app --> 
-              <section>
-                <section data-markdown data-transition="fade">
-                  # Adding ES2015
-                  ## to
-                  # Your Rails App
-                </section>
-                  
-                <section data-markdown data-transition="fade">
-                  ## 2 gems are Necessary
-                </section>
-
-                <section data-transition="convex">
-                  <pre><code class="ruby">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+	 <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+	<section>
+          <h1>WebSockets</h1>
+          <p>
+            <a href="http://kickinbahk.com">Josiah Mory</a> / <a href="http://twitter.com/kickinbahk">@kickinbahk</a>
+          </p>
+	</section>
+
+	<section data-markdown>
+          ### An Interactive communication session between the user's browser and a server
+	</section>
+        
+	<section data-transition="fade-in none">
+          <h2>Faye - Rails</h2>
+          <h2 class="fragment fade-in" data-fragment-index="1">Socket.io - Node</h2>
+          <h2 class="fragment fade-in" data-fragment-index="2">ActionCable - Rails </h2>
+	</section>
+	<section data-transition="none">
+          <h2 class="fragment highlight-red" data-fragment-index="0">Faye - Rails</h2>
+          <h2 class="fragment highlight-blue" data-fragment-index="1">Socket.io - Node</h2>
+          <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
+	</section>
+        
+        <!-- Var vs Let & Const -->
+        <!-- Adding Es2015 to your Rails app --> 
+        <section>
+          <section data-markdown data-transition="fade">
+            # Adding ES2015
+            ## to
+            # Your Rails App
+          </section>
+          
+          <section data-markdown data-transition="fade">
+            ## 2 gems are Necessary
+          </section>
+
+          <section data-transition="convex">
+            <pre><code class="ruby">
                     #Gemfile
                     gem "sprockets"
                     gem "sprockets-es6"
-                  </code></pre>
-                </section>
+            </code></pre>
+          </section>
 
-                <section data-markdown data-transition="convex">
-                  #### Add to top of `application.js`                    
-                  ```
-                    require 'sprockets/es6'
-                  ```
-                </section>
+          <section data-markdown data-transition="convex">
+            #### Add to top of `application.js`                    
+            ```
+            require 'sprockets/es6'
+            ```
+          </section>
 
-                <section data-markdown data-transition="convex">
-                  ### Install Presets
-                  ```
-                    npm install babel-preset-es2015 --save-dev
-                  ```
-                </section>
+          <section data-markdown data-transition="convex">
+            ### Install Presets
+            ```
+            npm install babel-preset-es2015 --save-dev
+            ```
+          </section>
 
-                <section data-markdown data-transition="convex">
-                  ### Create `.babelrc` config and enable Plugin(s)
-                  ```
-                    echo '{ "presets": ["es2015"] }' > .babelrc
-                  ```
-                </section>
-                  
-                <section data-markdown data-transition="fade">
-                  ## Es6 functionality is added to any `.es6` file
-                </section>
+          <section data-markdown data-transition="convex">
+            ### Create `.babelrc` config and enable Plugin(s)
+            ```
+            echo '{ "presets": ["es2015"] }' > .babelrc
+            ```
+          </section>
+          
+          <section data-markdown data-transition="fade">
+            ## Es6 functionality is added to any `.es6` file
+          </section>
 
-                <section data-markdown data-transition="fade">
-                  ## Instructions From Babel Website
-                  #### ([https://babeljs.io/docs/setup/#rails](https://babeljs.io/docs/setup/#rails))
-                </section>                
-              </section>
-                
-			  <section data-markdown data-transition="slide">
-                ### [ES2015 Spec](http://www.ecma-international.org/ecma-262/6.0/)
-			  </section>
+          <section data-markdown data-transition="fade">
+            ## Instructions From Babel Website
+            #### ([https://babeljs.io/docs/setup/#rails](https://babeljs.io/docs/setup/#rails))
+          </section>                
+        </section>
+        
+	<section data-markdown data-transition="slide">
+          ### [ES2015 Spec](http://www.ecma-international.org/ecma-262/6.0/)
+	</section>
 
-			</div>
+      </div>
 
-		</div>
+    </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-		<script>
+    <script>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
+      // Optional reveal.js plugins
+      dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+      ]
+      });
 
-		</script>
+    </script>
 
-	</body>
+  </body>
 </html>
