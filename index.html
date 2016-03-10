@@ -49,8 +49,8 @@
             ## Standard REST Request
           </section>
           <section data-markdown>
-            ## Request a Website
-            ### http://www.meetup.com/Riverside-Ruby-User-Group/
+            ### Request a Website
+            http://www.meetup.com/Riverside-Ruby-User-Group/
           </section>
           <section>
             <span style="text-align: center;">
@@ -74,17 +74,47 @@
               <p class="fragment fade-in">10. Sent back to browser and connection closed </p>              
             </span>
           </section>
+          <section data-markdown>
+            ## Cookies
+          </section>
+          <section data-markdown>
+            ### Identity Maintained by Cookies
+          </section>
+          <section data-markdown>
+            ### Passed back and forth with all requests
+          </section>
+          <section>
+            <ul>
+              <li class="fragment fade-in">Carries Overhead</li>
+              <li class="fragment fade-in">Open to Security Vulnerabilities</li>
+            </ul>
+          </section>
         </section>
-
+        
         <!-- Websockets -->
+        <section data-markdown>
+          ## Introducing Websockets
+        </section>
+        <section data-markdown>
+          ### Originally Part of HTML5 standard
+        </section>
+        <section data-markdown>
+          ### Moved to its own standard to keep the specification focused
+        </section>
+        <section data-markdown>
+          ### Bi-directional, full-duplex persistent connection from a web browser to a server
+        </section>
 	<section data-markdown>
-          ## An Interactive communication session between the user's browser and a server
+          ### An Interactive communication session between the user's browser and a server
 	</section>
         <section data-markdown>
-          ## Stateless
+          ### Client or Server can pass messages to each other at any time
         </section>
         <section data-markdown>
           ## Remains Open till Client Closes Connection
+        </section>
+        <section data-markdown>
+          ## Stateless
         </section>
 	<section data-transition="fade-in none">
           <h2>Faye - Rails</h2>
@@ -113,8 +143,6 @@
       progress: true,
       history: true,
       center: true,
-      margin: 0.1,
-      maxScale: 4.0,
       transition: 'slide', // none/fade/slide/convex/concave/zoom
 
       // Optional reveal.js plugins

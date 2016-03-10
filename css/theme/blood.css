@@ -36,7 +36,7 @@ body {
 /*********************************************
  * HEADERS
  *********************************************/
-.reveal h1,
+
 .reveal h2,
 .reveal h3,
 .reveal h4,
@@ -48,12 +48,20 @@ body {
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
   text-shadow: 2px 2px 2px #222;
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 3.77em; }
+    font-size: 3.77em;
+    margin: 0 0 20px 0;
+    color: #eee;
+    font-family: Ubuntu, "sans-serif";
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px #222;
+    word-wrap: break-word; }
 
 .reveal h2 {
   font-size: 2.11em; }
