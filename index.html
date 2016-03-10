@@ -42,11 +42,50 @@
             <a href="http://kickinbahk.com">Josiah Mory</a> / <a href="http://twitter.com/kickinbahk">@kickinbahk</a>
           </p>
 	</section>
-
-	<section data-markdown>
-          ### An Interactive communication session between the user's browser and a server
-	</section>
         
+        <!-- REST --> 
+        <section>
+          <section data-markdown>
+            ## Standard REST Request
+          </section>
+          <section data-markdown>
+            ## Request a Website
+            ### http://www.meetup.com/Riverside-Ruby-User-Group/
+          </section>
+          <section>
+            <span style="text-align: center;">
+              <h4>Standard Rest Transaction</h4>
+              <br />
+              <p class='fragment fade-in'>1. Open a socket port to 80 on meetup.com</p>
+              <p class='fragment fade-in'>2. Send an Http header request to the server (Apache/Nginx)</p>
+              <p class="fragment fade-in">3. This buffers the message</p>
+              <p class="fragment fade-in">4. Message is sent to server apppcation</p>
+              <p class='fragment fade-in'>5. Server application decides what to do with request</p>
+            </span>
+          </section>
+          <section>            
+            <span style="text-align: center;">
+              <h4>Standard Rest Transaction (cont)</h4>
+              <br />
+              <p class='fragment fade-in'>6. Fetches Data</p>
+              <p class="fragment fade-in">7. Generates HTML</p>
+              <p class="fragment fade-in">8. Sends it back to the server (Apache/Nginx)</p>
+              <p class="fragment fade-in">9. Appropriate HTTP headers are added to the body</p>
+              <p class="fragment fade-in">10. Sent back to browser and connection closed </p>              
+            </span>
+          </section>
+        </section>
+
+        <!-- Websockets -->
+	<section data-markdown>
+          ## An Interactive communication session between the user's browser and a server
+	</section>
+        <section data-markdown>
+          ## Stateless
+        </section>
+        <section data-markdown>
+          ## Remains Open till Client Closes Connection
+        </section>
 	<section data-transition="fade-in none">
           <h2>Faye - Rails</h2>
           <h2 class="fragment fade-in" data-fragment-index="1">Socket.io - Node</h2>
@@ -56,62 +95,6 @@
           <h2 class="fragment highlight-red" data-fragment-index="0">Faye - Rails</h2>
           <h2 class="fragment highlight-blue" data-fragment-index="1">Socket.io - Node</h2>
           <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
-	</section>
-        
-        <!-- Var vs Let & Const -->
-        <!-- Adding Es2015 to your Rails app --> 
-        <section>
-          <section data-markdown data-transition="fade">
-            # Adding ES2015
-            ## to
-            # Your Rails App
-          </section>
-          
-          <section data-markdown data-transition="fade">
-            ## 2 gems are Necessary
-          </section>
-
-          <section data-transition="convex">
-            <pre><code class="ruby">
-                    #Gemfile
-                    gem "sprockets"
-                    gem "sprockets-es6"
-            </code></pre>
-          </section>
-
-          <section data-markdown data-transition="convex">
-            #### Add to top of `application.js`                    
-            ```
-            require 'sprockets/es6'
-            ```
-          </section>
-
-          <section data-markdown data-transition="convex">
-            ### Install Presets
-            ```
-            npm install babel-preset-es2015 --save-dev
-            ```
-          </section>
-
-          <section data-markdown data-transition="convex">
-            ### Create `.babelrc` config and enable Plugin(s)
-            ```
-            echo '{ "presets": ["es2015"] }' > .babelrc
-            ```
-          </section>
-          
-          <section data-markdown data-transition="fade">
-            ## Es6 functionality is added to any `.es6` file
-          </section>
-
-          <section data-markdown data-transition="fade">
-            ## Instructions From Babel Website
-            #### ([https://babeljs.io/docs/setup/#rails](https://babeljs.io/docs/setup/#rails))
-          </section>                
-        </section>
-        
-	<section data-markdown data-transition="slide">
-          ### [ES2015 Spec](http://www.ecma-international.org/ecma-262/6.0/)
 	</section>
 
       </div>
@@ -130,7 +113,8 @@
       progress: true,
       history: true,
       center: true,
-
+      margin: 0.1,
+      maxScale: 4.0,
       transition: 'slide', // none/fade/slide/convex/concave/zoom
 
       // Optional reveal.js plugins
