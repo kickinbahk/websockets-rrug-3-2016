@@ -116,6 +116,10 @@
         <section data-markdown>
           ## Stateless
         </section>
+        <section data-markdown>
+          ## No Connection Limitation
+          (Mulitple Tabs)
+        </section>
 	<section data-transition="fade-in none">
           <h2>Faye - Rails</h2>
           <h2 class="fragment fade-in" data-fragment-index="1">Socket.io - Node</h2>
@@ -127,6 +131,42 @@
           <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
 	</section>
 
+        <!-- Why Not Use WebSockets -->
+	<section data-markdown>
+          ## Why Not Websockets? 
+	</section>
+        <section data-markdown>
+          ### Users want "delightful realtime web apps".
+        </section>
+        <section data-markdown>
+          ### Developers want "delightfully easy to build realtime web apps".
+        </section>
+        <section data-markdown>
+          ### Operations want "delightfully easy to deploy, scale and manage realtime web apps".
+        </section>
+        <section>
+          <h3>Difficult to Implement</h3>
+          <h3 class="fragment fade-in">Difficult to Debug</h3>
+          <h3 class="fragment fade-in">No Connection Limitation</h3>
+          <h3 class="fragment fade-in">Complicated Load Balancing</h3>
+          <h3 class="fragment fade-in">Illusion of Reliability</h3>
+        </section>
+        <section>
+          <h3>Long Polling</h3>
+          <ul>
+          <li class="fragment fade-in">Facebook</li>
+          <li class="fragment fade-in">Gmail</li>
+          </ul>
+        </section>
+        <section>
+          <h3>HTTP/2 Protocol with Long Polling</h3>
+          <ul>
+            <li class="fragment fade-in">Twitter</li>
+          </ul>           
+        </section>
+        <section data-markdown>
+          ### [https://samsaffron.com/archive/2015/12/29/websockets-caution-required](https://samsaffron.com/archive/2015/12/29/websockets-caution-required)
+        </section>
       </div>
 
     </div>
