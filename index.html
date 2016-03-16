@@ -36,12 +36,12 @@
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
-	<section>
+	     <section>
           <h1>WebSockets</h1>
           <p>
             <a href="http://kickinbahk.com">Josiah Mory</a> / <a href="http://twitter.com/kickinbahk">@kickinbahk</a>
           </p>
-	</section>
+	     </section>
         
         <!-- REST --> 
         <section>
@@ -131,6 +131,19 @@
           <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
 	</section>
 
+  <!-- Getting Started with Websockets API -->
+  <section>
+    <section>
+    <pre><code class="javascript">
+      var connection = new WebSocket(url, [protocal] );
+    </code></pre>
+      <p>Ex:</p>
+      <pre><code class="javascript">
+        var connection = new WebSocket('ws://html5rocks.websocket.org/echo',
+                                       ['soap', 'xmpp']);
+      </code></pre>
+    </section>
+  </section>
         <!-- Why Not Use WebSockets -->
 	<section data-markdown>
           ## Why Not Websockets? 
