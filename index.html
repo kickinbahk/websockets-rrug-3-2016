@@ -45,8 +45,12 @@
         
         <!-- REST --> 
         <section>
-          <section data-markdown>
-            ## Standard REST Request
+          <section>
+            <h2>Standard REST Request dissected</h2>
+            <img src="./assets/dissected-lego.jpg" class="fragment fade-in" style="transform: rotate(8deg); 
+                                                                                  width: 30%; 
+                                                                                  margin-left: 40px;
+                                                                                  radius: 20%;">
           </section>
           <section data-markdown>
             ### Request a Website
@@ -84,6 +88,7 @@
             ### Passed back and forth with all requests
           </section>
           <section>
+          <h3>Disadvantages</h3>
             <ul>
               <li class="fragment fade-in">Carries Overhead</li>
               <li class="fragment fade-in">Open to Security Vulnerabilities</li>
@@ -104,9 +109,9 @@
         <section data-markdown>
           ### Bi-directional, full-duplex persistent connection from a web browser to a server
         </section>
-	<section data-markdown>
-          ### An Interactive communication session between the user's browser and a server
-	</section>
+      	<section data-markdown>
+                ### An Interactive communication session between the user's browser and a server
+      	</section>
         <section data-markdown>
           ### Client or Server can pass messages to each other at any time
         </section>
@@ -120,34 +125,101 @@
           ## No Connection Limitation
           (Mulitple Tabs)
         </section>
-	<section data-transition="fade-in none">
+      	<section data-transition="fade-in none">
           <h2>Faye - Rails</h2>
           <h2 class="fragment fade-in" data-fragment-index="1">Socket.io - Node</h2>
           <h2 class="fragment fade-in" data-fragment-index="2">ActionCable - Rails </h2>
-	</section>
-	<section data-transition="none">
+      	</section>
+      	<section data-transition="none">
           <h2 class="fragment highlight-red" data-fragment-index="0">Faye - Rails</h2>
           <h2 class="fragment highlight-blue" data-fragment-index="1">Socket.io - Node</h2>
           <h2 class="fragment highlight-red" data-fragment-index="0">ActionCable - Rails </h2>
-	</section>
+      	</section>
 
-  <!-- Getting Started with Websockets API -->
-  <section>
-    <section>
-    <pre><code class="javascript">
-      var connection = new WebSocket(url, [protocal] );
-    </code></pre>
-      <p>Ex:</p>
-      <pre><code class="javascript">
-        var connection = new WebSocket('ws://html5rocks.websocket.org/echo',
-                                       ['soap', 'xmpp']);
-      </code></pre>
-    </section>
-  </section>
+        <!-- Getting Started with Websockets API -->
+        <section>
+          <section data-markdown>
+            ## Calling the Websockets API
+          </section>
+          <section>
+          <pre><code class="javascript">
+            var connection = new WebSocket(url, [protocol] );
+          </code></pre>
+            <p>Ex:</p>
+            <pre><code class="javascript">
+              var connection = new WebSocket(
+                                'ws://html5rocks.websocket.org/echo',
+                                ['soap', 'xmpp']);
+            </code></pre>
+          </section>
+          <section data-markdown>
+            #### Second Argument
+            #### -  
+            Accepts Optional Subprotocols as a String or an Array of Strings
+          </section>
+          <section>
+            <h3>Events</h3>      
+            <pre><code class="javascript">
+            // When the connection is open, send some data to the server
+            connection.onopen = function () {
+              // Send the message 'Ping' to the Server
+              connection.send('Ping'); 
+            };
+
+            // Log errors
+            connection.onerror = function (error) {
+              console.log('WebSocket Error ' + error);
+            };
+            </code></pre>
+          </section>
+          <section>
+            <h3>Events (cont.)</h3>      
+            <pre><code class="javascript">
+            // Receive data from the server
+            connection.onmessage = function (e) {
+              console.log('Server: ' + e.data);
+            };
+
+            // Close connection
+            connection.onclose = function (c) {
+              console.log('Connection: closed...' + c)
+            };
+            </code></pre>
+          </section>
+          <section>
+            <h3>Sending Data</h3>
+            <pre><code class="javascript">
+            // Sending a string
+            connection.send('your message');
+
+            // Sending canvas ImageData as ArrayBuffer
+            var img = canvas_context.getImageData(0, 0, 400, 320);
+            var binary = new Uint8Array(img.data.length);
+            for (var i = 0; i < img.data.length; i++) {
+              binary[i] = img.data[i];
+            }
+            connection.send(binary.buffer);
+
+            // Sending file as Blob
+            var file = document.querySelector('input[type="file"]').files[0];
+            connection.send(file);
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Possible Use Cases</h2>
+          <ul>
+            <li class="fragment">Multiplayer online games</li>
+            <li class="fragment fade-in">Chat applications</li>
+            <li class="fragment fade-in">Live sports ticker</li>
+            <li class="fragment fade-in">Realtime updating social streams</li>
+          </ul>
+        </section>
+
         <!-- Why Not Use WebSockets -->
-	<section data-markdown>
-          ## Why Not Websockets? 
-	</section>
+      	<section>
+          <h2>Why Not Websockets?</h2>
+      	</section>
         <section data-markdown>
           ### Users want "delightful realtime web apps".
         </section>
@@ -164,6 +236,9 @@
           <h3 class="fragment fade-in">Complicated Load Balancing</h3>
           <h3 class="fragment fade-in">Illusion of Reliability</h3>
           <h3 class="fragment fade-in"><a href="http://caniuse.com/#feat=http2">Lack of Browser Support</a></h3>
+        </section>
+        <section data-markdown>
+          ## Other ways to Similar Results
         </section>
         <section>
           <h3>Long Polling</h3>
@@ -190,25 +265,25 @@
 
     <script>
 
-      // Full list of configuration options available at:
-      // https://github.com/hakimel/reveal.js#configuration
-      Reveal.initialize({
-      controls: true,
-      progress: true,
-      history: true,
-      center: true,
-      transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Full list of configuration options available at:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-      // Optional reveal.js plugins
-      dependencies: [
-      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: 'plugin/zoom-js/zoom.js', async: true },
-      { src: 'plugin/notes/notes.js', async: true }
-      ]
-      });
+        // Optional reveal.js plugins
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+        ]
+        });
 
     </script>
 
